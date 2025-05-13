@@ -7,6 +7,8 @@ import { routes } from './app.routes';
 
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
+import { MatListModule } from '@angular/material/list';  // Certifique-se de importar o MatListModule
+import { FormsModule } from '@angular/forms';  // Certifique-se de importar o FormsModule
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -16,7 +18,9 @@ export const appConfig: ApplicationConfig = {
     provideAnimations(),
     importProvidersFrom(
       MatIconModule,
-      MatButtonModule
-    )
+      MatButtonModule,
+      MatListModule,  // Importação do MatListModule para usar o mat-selection-list
+      FormsModule     // Importação do FormsModule para usar ngModel
+    ),
   ]
 };

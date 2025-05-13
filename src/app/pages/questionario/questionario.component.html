@@ -1,0 +1,20 @@
+<video autoplay muted loop playsinline class="bg-video">
+    <source src="assets/video-page2.mp4" type="video/mp4">
+    Seu navegador não suporta vídeo em HTML5.
+</video>
+<div class="questionario-container">
+    <div class="skip-questionario">
+        <button mat-button routerLink="/">Pular Avaliação</button>
+    </div>
+    <div class="pergunta">
+        <h2>{{ pergunta }}</h2>
+    </div>
+
+    <div class="respostas">
+        <mat-checkbox [checked]="isChecked('sim')" (change)="setResposta('sim')">Sim</mat-checkbox>
+
+        <mat-checkbox [checked]="isChecked('nao')" (change)="setResposta('nao')">Não</mat-checkbox>
+
+        <mat-checkbox [checked]="isChecked('nao_sei')" (change)="setResposta('nao_sei')">Não sei</mat-checkbox>
+    </div>
+</div>
