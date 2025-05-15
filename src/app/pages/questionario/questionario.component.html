@@ -4,17 +4,15 @@
 </video>
 <div class="questionario-container">
     <div class="skip-questionario">
-        <button mat-button routerLink="/">Pular Avaliação</button>
+        <button mat-raised-button color="primary" routerLink="/">Pular Avaliação</button>
     </div>
     <div class="pergunta">
         <h2>{{ pergunta }}</h2>
     </div>
 
-    <div class="respostas">
+    <div class="respostas checkbox-branco">
         <mat-checkbox [checked]="isChecked('sim')" (change)="setResposta('sim')">Sim</mat-checkbox>
-
         <mat-checkbox [checked]="isChecked('nao')" (change)="setResposta('nao')">Não</mat-checkbox>
-
         <mat-checkbox [checked]="isChecked('nao_sei')" (change)="setResposta('nao_sei')">Não sei</mat-checkbox>
     </div>
 </div>

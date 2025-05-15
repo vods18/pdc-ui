@@ -1,7 +1,17 @@
+.bg-video {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    object-fit: cover;
+    z-index: -1;
+}
+
 .questionario-container {
     display: flex;
     flex-direction: column;
-    min-height: 100vh;
+    min-height: calc(100vh - 5rem);
     padding: 2rem;
     font-family: Arial, sans-serif;
 }
@@ -18,6 +28,7 @@
     margin-top: 4rem;
     margin-bottom: 2rem;
     max-width: 700px;
+    color: white;
 }
 
 .respostas {
@@ -26,4 +37,10 @@
     gap: 1rem;
     max-width: 300px;
     margin-left: 2rem;
+    color: white;
+}
+
+.respostas .mat-mdc-checkbox {
+    --mdc-theme-text-primary-on-background: white;
+    --mat-checkbox-label-text-color: white;
 }
