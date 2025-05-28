@@ -23,8 +23,8 @@
 }
 
 .pergunta {
-    font-size: 1.8rem;
-    text-align: center;
+    font-size: 1rem;
+    text-align: left;
     margin-top: 4rem;
     margin-bottom: 2rem;
     max-width: 700px;
@@ -36,11 +36,22 @@
     flex-direction: column;
     gap: 1rem;
     max-width: 300px;
-    margin-left: 2rem;
+    margin-top: 5rem;
     color: white;
 }
 
-.respostas .mat-mdc-checkbox {
+.respostas .mat-mdc-radio-button {
     --mdc-theme-text-primary-on-background: white;
-    --mat-checkbox-label-text-color: white;
+    --mat-radio-checked-color: white;
+    --mat-radio-label-text-color: white;
+    color: white;
+    /* Precaução para rótulo */
+}
+
+.m-10 {
+    margin-top: 10rem;
+}
+
+.m-2 {
+    margin-top: 2rem;
 }
