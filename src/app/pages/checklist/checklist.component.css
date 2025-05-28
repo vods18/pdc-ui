@@ -1,0 +1,75 @@
+body {
+    margin: 0;
+    background-color: #01091e;
+    color: white;
+    font-family: Arial, sans-serif;
+}
+
+.container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 20px;
+}
+
+.progress-bar-container {
+    width: 90%;
+    margin-bottom: 20px;
+    position: relative;
+}
+
+.mat-progress-bar {
+    height: 20px;
+    border-radius: 10px;
+    background-color: #3a3a3a;
+}
+
+.progress-label {
+    position: absolute;
+    top: -28px;
+    left: 50%;
+    transform: translateX(-50%);
+    color: white;
+    font-weight: bold;
+}
+
+.requisitos-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+    width: 100%;
+}
+
+.requisito-panel {
+    background-color: #f5f5dc;
+    border-radius: 10px;
+    padding: 15px;
+    color: black;
+}
+
+.requisito-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.requisito-title {
+    font-weight: bold;
+    font-size: 18px;
+}
+
+.subrequisito {
+    margin-top: 10px;
+    padding: 10px;
+    border-radius: 8px;
+    background-color: rgba(173, 216, 230, 0.15);
+    color: white;
+}
+
+.explicacao {
+    margin-top: 8px;
+    font-size: 14px;
+    background-color: rgba(173, 216, 230, 0.2);
+    padding: 8px;
+    border-radius: 6px;
+}

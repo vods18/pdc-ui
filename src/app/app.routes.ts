@@ -1,6 +1,7 @@
 import { Routes } from '@angular/router';
-import { QuestionarioComponent } from './pages/questionario/questionario.component';
 import { HomeComponent } from './pages/home/home.component';
+import { QuestionarioComponent } from './pages/questionario/questionario.component';
+import { ChecklistComponent } from './pages/checklist/checklist.component';
 
 export const routes: Routes = [
     {
@@ -10,5 +11,10 @@ export const routes: Routes = [
     {
         path: 'questionario',
         component: QuestionarioComponent
+    },
+    {
+        path: 'checklist',
+        component: ChecklistComponent
     }
+
 ];

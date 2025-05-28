@@ -1,0 +1,41 @@
+<div class="checklist-container">
+    <div class="top-progress-bar">
+        <div class="progress-label">{{ totalProgress }}%</div>
+        <div class="progress-bar">
+            <div class="progress-bar-fill" [style.width.%]="totalProgress"></div>
+        </div>
+    </div>
+
+    <div class="requisitos-columns">
+        <div class="requisito-column" *ngFor="let col of [0, 1]">
+            <ng-container *ngFor="let requisito of requisitos | slice:col*6:(col+1)*6">
+                <mat-expansion-panel class="requisito-panel">
+                    <mat-expansion-panel-header>
+                        <mat-panel-title>
+                            {{ requisito.titulo }}
+                        </mat-panel-title>
+                        <mat-progress-spinner [value]="getRequisitoProgress(requisito)" mode="determinate" diameter="40"
+                            strokeWidth="5" color="accent">
+                        </mat-progress-spinner>
+                    </mat-expansion-panel-header>
+
+                    <div *ngFor="let sub of requisito.subrequisitos" class="subrequisito-item">
+                        <mat-checkbox [(ngModel)]="sub.checked" (change)="atualizarProgresso()">
+                            {{ sub.explicacao }}
+                        </mat-checkbox>
+
+                        <mat-expansion-panel class="explicacao-panel">
+                            <mat-expansion-panel-header>
+                                <mat-panel-title>Explicação</mat-panel-title>
+                            </mat-expansion-panel-header>
+                            <div class="explicacao-texto">
+                                {{ sub.explicacao }}
+                            </div>
+                        </mat-expansion-panel>
+                    </div>
+
+                </mat-expansion-panel>
+            </ng-container>
+        </div>
+    </div>
+</div>
