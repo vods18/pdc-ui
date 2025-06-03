@@ -37,6 +37,9 @@ export class ChecklistComponent implements OnInit {
     requisitos: Requisito[] = [];
     totalSubRequisitos = 0;
     totalChecked = 0;
+    colunaEsquerda: Requisito[] = [];
+    colunaDireita: Requisito[] = [];
+
 
     ngOnInit() {
         this.requisitos = Array.from({ length: 12 }).map((_, i) => ({
@@ -54,7 +57,12 @@ export class ChecklistComponent implements OnInit {
             (sum, r) => sum + r.subrequisitos.length,
             0
         );
+
+        // Dividir os requisitos em duas colunas sem usar slice no HTML
+        this.colunaEsquerda = this.requisitos.slice(0, 6);
+        this.colunaDireita = this.requisitos.slice(6, 12);
     }
+
 
     onSubRequisitoToggle() {
         this.totalChecked = this.requisitos.reduce(

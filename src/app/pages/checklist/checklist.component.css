@@ -1,8 +1,96 @@
-body {
-    margin: 0;
+:host {
+    display: block;
+    height: 100vh;
     background-color: #01091e;
+
     color: white;
-    font-family: Arial, sans-serif;
+    overflow-y: auto;
+}
+
+.checklist-container {
+    padding: 20px;
+    min-height: calc(100vh - 5rem);
+}
+
+.titulo-principal {
+    text-align: left;
+    font-size: 3em;
+    margin-bottom: 20px;
+    color: white;
+    font-weight: bold;
+}
+
+.top-progress-bar {
+    width: 100%;
+    position: relative;
+    margin-bottom: 40px;
+    margin-top: 6em;
+}
+
+.progress-bar {
+    width: 80%;
+    margin: 0 auto;
+    height: 20px;
+    border-radius: 10px;
+    background-color: #3a3a3a;
+    overflow: hidden;
+}
+
+.progress-bar-fill {
+    height: 100%;
+    background-color: #00c853;
+    transition: width 0.3s ease;
+}
+
+.progress-label {
+    position: absolute;
+    top: -28px;
+    left: 50%;
+    transform: translateX(-50%);
+    font-weight: bold;
+    font-size: 16px;
+}
+
+.requisitos-grid {
+    display: flex;
+    justify-content: space-between;
+    gap: 20px;
+    width: 100%;
+    margin-top: 20px;
+}
+
+.requisito-column {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.requisito-panel {
+    background-color: #f5f5dc;
+    border-radius: 10px;
+    padding: 15px;
+    color: black;
+}
+
+.subrequisito-item {
+    margin-top: 10px;
+    padding: 10px;
+    border-radius: 8px;
+    background-color: rgba(173, 216, 230, 0.15);
+    color: white;
+}
+
+.explicacao-panel {
+    margin-top: 10px;
+}
+
+.explicacao-texto {
+    padding: 8px;
+    background-color: rgba(173, 216, 230, 0.2);
+    border-radius: 6px;
+    font-size: 14px;
+    color: white;
 }
 
 .container {
@@ -45,6 +133,8 @@ body {
     border-radius: 10px;
     padding: 15px;
     color: black;
+    margin-left: 5em;
+    margin-right: 5em;
 }
 
 .requisito-header {
@@ -72,4 +162,19 @@ body {
     background-color: rgba(173, 216, 230, 0.2);
     padding: 8px;
     border-radius: 6px;
+}
+
+.requisitos-grid {
+    display: flex;
+    justify-content: space-between;
+    gap: 20px;
+    width: 100%;
+    margin-top: 20px;
+}
+
+.requisito-column {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
 }

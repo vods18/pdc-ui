@@ -1,21 +1,22 @@
 <div class="checklist-container">
+    <h1 class="titulo-principal">PCI DSS CHECKLIST</h1>
+
     <div class="top-progress-bar">
         <div class="progress-label">{{ totalProgress }}%</div>
         <div class="progress-bar">
             <div class="progress-bar-fill" [style.width.%]="totalProgress"></div>
         </div>
     </div>
-
-    <div class="requisitos-columns">
-        <div class="requisito-column" *ngFor="let col of [0, 1]">
-            <ng-container *ngFor="let requisito of requisitos | slice:col*6:(col+1)*6">
+    <div class="requisitos-grid">
+        <div class="requisito-column">
+            <ng-container *ngFor="let requisito of colunaEsquerda">
                 <mat-expansion-panel class="requisito-panel">
                     <mat-expansion-panel-header>
                         <mat-panel-title>
                             {{ requisito.titulo }}
                         </mat-panel-title>
-                        <mat-progress-spinner [value]="getRequisitoProgress(requisito)" mode="determinate" diameter="40"
-                            strokeWidth="5" color="accent">
+                        <mat-progress-spinner style="margin-right: 1em;" [value]="getRequisitoProgress(requisito)"
+                            mode="determinate" diameter="40" strokeWidth="5" color="accent">
                         </mat-progress-spinner>
                     </mat-expansion-panel-header>
 
@@ -34,6 +35,34 @@
                         </mat-expansion-panel>
                     </div>
 
+                </mat-expansion-panel>
+            </ng-container>
+        </div>
+        <div class="requisito-column">
+            <ng-container *ngFor="let requisito of colunaDireita">
+                <mat-expansion-panel class="requisito-panel">
+                    <mat-expansion-panel-header>
+                        <mat-panel-title>
+                            {{ requisito.titulo }}
+                        </mat-panel-title>
+                        <mat-progress-spinner [value]="getRequisitoProgress(requisito)" mode="determinate" diameter="40"
+                            strokeWidth="5" color="accent">
+                        </mat-progress-spinner>
+                    </mat-expansion-panel-header>
+
+                    <div *ngFor="let sub of requisito.subrequisitos" class="subrequisito-item">
+                        <mat-checkbox [(ngModel)]="sub.checked" (change)="atualizarProgresso()">
+                            {{ sub.explicacao }}
+                        </mat-checkbox>
+                        <mat-expansion-panel class="explicacao-panel">
+                            <mat-expansion-panel-header>
+                                <mat-panel-title>Explicação</mat-panel-title>
+                            </mat-expansion-panel-header>
+                            <div class="explicacao-texto">
+                                {{ sub.explicacao }}
+                            </div>
+                        </mat-expansion-panel>
+                    </div>
                 </mat-expansion-panel>
             </ng-container>
         </div>
