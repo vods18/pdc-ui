@@ -23,11 +23,11 @@
 }
 
 .pergunta {
-    font-size: 1rem;
+    font-size: 1.2rem;
     text-align: left;
     margin-top: 4rem;
     margin-bottom: 2rem;
-    max-width: 700px;
+    max-width: 70rem;
     color: white;
 }
 

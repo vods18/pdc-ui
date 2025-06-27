@@ -1,5 +1,15 @@
 <div class="checklist-container">
-    <h1 class="titulo-principal">PCI DSS CHECKLIST</h1>
+    <div class="scan-overlay" *ngIf="showScan"></div>
+    <h1 class="titulo-principal">
+        <a [routerLink]="['/']" class="titulo-link">PCI DSS CHECKLIST</a>
+    </h1>
+
+    <div class="action-bar">
+        <button mat-raised-button color="primary" class="btn-generate-pdf" (click)="generatePdf()">
+            <mat-icon>picture_as_pdf</mat-icon>
+            Gerar Relatório PDF
+        </button>
+    </div>
 
     <div class="top-progress-bar">
         <div class="progress-label">{{ totalProgress }}%</div>
@@ -7,52 +17,55 @@
             <div class="progress-bar-fill" [style.width.%]="totalProgress"></div>
         </div>
     </div>
+
     <div class="requisitos-grid">
         <div class="requisito-column">
             <ng-container *ngFor="let requisito of colunaEsquerda">
                 <mat-expansion-panel class="requisito-panel">
                     <mat-expansion-panel-header>
                         <mat-panel-title>
-                            {{ requisito.titulo }}
+                            {{ requisito.id }}. {{ requisito.titulo }}
                         </mat-panel-title>
-                        <mat-progress-spinner style="margin-right: 1em;" [value]="getRequisitoProgress(requisito)"
+                        <mat-progress-spinner style="margin-right: 0.5em;" [value]="getProgressoPorRequisito(requisito)"
                             mode="determinate" diameter="40" strokeWidth="5" color="accent">
                         </mat-progress-spinner>
                     </mat-expansion-panel-header>
 
-                    <div *ngFor="let sub of requisito.subrequisitos" class="subrequisito-item">
-                        <mat-checkbox [(ngModel)]="sub.checked" (change)="atualizarProgresso()">
-                            {{ sub.explicacao }}
+                    <div *ngFor="let sub of requisito.subRequisitos" class="subrequisito-item">
+                        <mat-checkbox [(ngModel)]="sub.checked" (change)="onSubRequisitoToggle(sub)">
+                            {{ sub.titulo }}
                         </mat-checkbox>
-
                         <mat-expansion-panel class="explicacao-panel">
                             <mat-expansion-panel-header>
-                                <mat-panel-title>Explicação</mat-panel-title>
+                                <mat-panel-title style="font-size: 0.8em !important;">Descrição</mat-panel-title>
                             </mat-expansion-panel-header>
                             <div class="explicacao-texto">
                                 {{ sub.explicacao }}
+                                <p class="descricao-software" *ngIf="getDescricaoSoftware(sub.id)">
+                                    Recomenda-se: {{ getDescricaoSoftware(sub.id) }}
+                                </p>
                             </div>
                         </mat-expansion-panel>
                     </div>
-
                 </mat-expansion-panel>
             </ng-container>
         </div>
+
         <div class="requisito-column">
             <ng-container *ngFor="let requisito of colunaDireita">
                 <mat-expansion-panel class="requisito-panel">
                     <mat-expansion-panel-header>
                         <mat-panel-title>
-                            {{ requisito.titulo }}
+                            {{ requisito.id }}. {{ requisito.titulo }}
                         </mat-panel-title>
-                        <mat-progress-spinner [value]="getRequisitoProgress(requisito)" mode="determinate" diameter="40"
-                            strokeWidth="5" color="accent">
+                        <mat-progress-spinner [value]="getProgressoPorRequisito(requisito)" mode="determinate"
+                            diameter="40" strokeWidth="5" color="accent">
                         </mat-progress-spinner>
                     </mat-expansion-panel-header>
 
-                    <div *ngFor="let sub of requisito.subrequisitos" class="subrequisito-item">
-                        <mat-checkbox [(ngModel)]="sub.checked" (change)="atualizarProgresso()">
-                            {{ sub.explicacao }}
+                    <div *ngFor="let sub of requisito.subRequisitos" class="subrequisito-item">
+                        <mat-checkbox [(ngModel)]="sub.checked" (change)="onSubRequisitoToggle(sub)">
+                            {{ sub.titulo }}
                         </mat-checkbox>
                         <mat-expansion-panel class="explicacao-panel">
                             <mat-expansion-panel-header>
@@ -60,6 +73,9 @@
                             </mat-expansion-panel-header>
                             <div class="explicacao-texto">
                                 {{ sub.explicacao }}
+                                <p class="descricao-software" *ngIf="getDescricaoSoftware(sub.id)">
+                                    Recomenda-se: {{ getDescricaoSoftware(sub.id) }}
+                                </p>
                             </div>
                         </mat-expansion-panel>
                     </div>

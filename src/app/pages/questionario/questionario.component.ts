@@ -4,11 +4,12 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { MatRadioModule } from '@angular/material/radio';
 import { MatButtonModule } from '@angular/material/button';
+import { RouterModule } from '@angular/router';
 
 @Component({
     selector: 'app-questionario',
     standalone: true,
-    imports: [CommonModule, FormsModule, MatRadioModule, MatButtonModule],
+    imports: [CommonModule, FormsModule, MatRadioModule, MatButtonModule, RouterModule],
     templateUrl: './questionario.component.html',
     styleUrls: ['./questionario.component.css'],
 })
