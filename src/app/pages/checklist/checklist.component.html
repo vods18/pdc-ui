@@ -7,14 +7,17 @@
     </h1>
 
     <div class="action-bar">
-        <button mat-raised-button color="primary" class="btn-generate-pdf" (click)="generatePdf()">
+        <button mat-button color="accent" class="btn-generate-pdf btn-reset" (click)="resetQuestionario()">
+            <mat-icon>refresh</mat-icon>
+            Refazer Avaliação
+        </button>
+
+        <button mat-raised-button color="primary" class="btn-generate-pdf btn-generate" (click)="generatePdf()">
             <mat-icon>picture_as_pdf</mat-icon>
             Gerar Relatório PDF
         </button>
-        <button mat-button color="accent" (click)="resetQuestionario()">
-            <mat-icon>refresh</mat-icon> Refazer Avaliação
-        </button>
     </div>
+
 
     <div class="top-progress-bar">
         <div class="progress-label">{{ totalProgress }}%</div>

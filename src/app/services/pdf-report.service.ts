@@ -92,7 +92,7 @@ export class PdfReportService {
             autoTable(doc, {
                 startY: cursorY,
                 margin: { left: margin, right: margin },
-                head: [['Req', 'SubRequisito', 'Software']],
+                head: [['Req', 'SubRequisito', 'Software Recomendado']],
                 body: missingItems,
                 columnStyles: {
                     0: { cellWidth: usableWidth * 0.1 },

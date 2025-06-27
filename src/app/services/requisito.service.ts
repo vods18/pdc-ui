@@ -8,6 +8,7 @@ export interface SubRequisito {
     titulo: string;
     explicacao: string;
     checked: boolean;
+    questionarioId: number;
     questionarioResposta?: string | null;
 }
 
