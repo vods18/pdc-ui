@@ -1,5 +1,7 @@
+<!-- src/app/checklist/checklist.component.html -->
 <div class="checklist-container">
     <div class="scan-overlay" *ngIf="showScan"></div>
+
     <h1 class="titulo-principal">
         <a [routerLink]="['/']" class="titulo-link">PCI DSS CHECKLIST</a>
     </h1>
@@ -8,6 +10,9 @@
         <button mat-raised-button color="primary" class="btn-generate-pdf" (click)="generatePdf()">
             <mat-icon>picture_as_pdf</mat-icon>
             Gerar Relatório PDF
+        </button>
+        <button mat-button color="accent" (click)="resetQuestionario()">
+            <mat-icon>refresh</mat-icon> Refazer Avaliação
         </button>
     </div>
 
@@ -19,68 +24,82 @@
     </div>
 
     <div class="requisitos-grid">
-        <div class="requisito-column">
-            <ng-container *ngFor="let requisito of colunaEsquerda">
-                <mat-expansion-panel class="requisito-panel">
-                    <mat-expansion-panel-header>
-                        <mat-panel-title>
-                            {{ requisito.id }}. {{ requisito.titulo }}
-                        </mat-panel-title>
-                        <mat-progress-spinner style="margin-right: 0.5em;" [value]="getProgressoPorRequisito(requisito)"
-                            mode="determinate" diameter="40" strokeWidth="5" color="accent">
-                        </mat-progress-spinner>
-                    </mat-expansion-panel-header>
+        <!-- Coluna Esquerda -->
+        <div class="requisito-column" *ngFor="let requisito of colunaEsquerda">
+            <mat-expansion-panel class="requisito-panel">
+                <mat-expansion-panel-header>
+                    <mat-panel-title>
+                        {{ requisito.id }}. {{ requisito.titulo }}
+                    </mat-panel-title>
+                    <mat-progress-spinner style="margin-right: 0.5em;" [value]="getProgressoPorRequisito(requisito)"
+                        mode="determinate" diameter="40" strokeWidth="5" color="accent">
+                    </mat-progress-spinner>
+                </mat-expansion-panel-header>
 
-                    <div *ngFor="let sub of requisito.subRequisitos" class="subrequisito-item">
-                        <mat-checkbox [(ngModel)]="sub.checked" (change)="onSubRequisitoToggle(sub)">
-                            {{ sub.titulo }}
-                        </mat-checkbox>
-                        <mat-expansion-panel class="explicacao-panel">
-                            <mat-expansion-panel-header>
-                                <mat-panel-title style="font-size: 0.8em !important;">Descrição</mat-panel-title>
-                            </mat-expansion-panel-header>
-                            <div class="explicacao-texto">
-                                {{ sub.explicacao }}
-                                <p class="descricao-software" *ngIf="getDescricaoSoftware(sub.id)">
-                                    Recomenda-se: {{ getDescricaoSoftware(sub.id) }}
+                <div *ngFor="let sub of requisito.subRequisitos" class="subrequisito-item">
+                    <mat-checkbox [(ngModel)]="sub.checked" (change)="onSubRequisitoToggle(sub)">
+                        {{ sub.titulo }}
+                    </mat-checkbox>
+
+                    <mat-expansion-panel class="explicacao-panel" [expanded]="sub.questionarioResposta === 'nao_sei'">
+                        <mat-expansion-panel-header>
+                            <mat-panel-title>Descrição</mat-panel-title>
+                        </mat-expansion-panel-header>
+
+                        <div class="explicacao-texto">
+                            {{ sub.explicacao }}
+
+                            <ng-container *ngIf="getSoftwareBySubId(sub.id) as sw">
+                                <p class="descricao-software">
+                                    Recomenda-se: {{ sw.nome }} – {{ sw.justificativa }}
+                                    (<a [href]="sw.fonte" target="_blank" rel="noopener noreferrer">
+                                        {{ sw.fonte }}
+                                    </a>)
                                 </p>
-                            </div>
-                        </mat-expansion-panel>
-                    </div>
-                </mat-expansion-panel>
-            </ng-container>
+                            </ng-container>
+                        </div>
+                    </mat-expansion-panel>
+                </div>
+            </mat-expansion-panel>
         </div>
 
-        <div class="requisito-column">
-            <ng-container *ngFor="let requisito of colunaDireita">
-                <mat-expansion-panel class="requisito-panel">
-                    <mat-expansion-panel-header>
-                        <mat-panel-title>
-                            {{ requisito.id }}. {{ requisito.titulo }}
-                        </mat-panel-title>
-                        <mat-progress-spinner [value]="getProgressoPorRequisito(requisito)" mode="determinate"
-                            diameter="40" strokeWidth="5" color="accent">
-                        </mat-progress-spinner>
-                    </mat-expansion-panel-header>
+        <!-- Coluna Direita -->
+        <div class="requisito-column" *ngFor="let requisito of colunaDireita">
+            <mat-expansion-panel class="requisito-panel">
+                <mat-expansion-panel-header>
+                    <mat-panel-title>
+                        {{ requisito.id }}. {{ requisito.titulo }}
+                    </mat-panel-title>
+                    <mat-progress-spinner [value]="getProgressoPorRequisito(requisito)" mode="determinate" diameter="40"
+                        strokeWidth="5" color="accent">
+                    </mat-progress-spinner>
+                </mat-expansion-panel-header>
 
-                    <div *ngFor="let sub of requisito.subRequisitos" class="subrequisito-item">
-                        <mat-checkbox [(ngModel)]="sub.checked" (change)="onSubRequisitoToggle(sub)">
-                            {{ sub.titulo }}
-                        </mat-checkbox>
-                        <mat-expansion-panel class="explicacao-panel">
-                            <mat-expansion-panel-header>
-                                <mat-panel-title>Explicação</mat-panel-title>
-                            </mat-expansion-panel-header>
-                            <div class="explicacao-texto">
-                                {{ sub.explicacao }}
-                                <p class="descricao-software" *ngIf="getDescricaoSoftware(sub.id)">
-                                    Recomenda-se: {{ getDescricaoSoftware(sub.id) }}
+                <div *ngFor="let sub of requisito.subRequisitos" class="subrequisito-item">
+                    <mat-checkbox [(ngModel)]="sub.checked" (change)="onSubRequisitoToggle(sub)">
+                        {{ sub.titulo }}
+                    </mat-checkbox>
+
+                    <mat-expansion-panel class="explicacao-panel" [expanded]="sub.questionarioResposta === 'nao_sei'">
+                        <mat-expansion-panel-header>
+                            <mat-panel-title>Descrição</mat-panel-title>
+                        </mat-expansion-panel-header>
+
+                        <div class="explicacao-texto">
+                            {{ sub.explicacao }}
+
+                            <ng-container *ngIf="getSoftwareBySubId(sub.id) as sw">
+                                <p class="descricao-software">
+                                    Recomenda-se: {{ sw.nome }} – {{ sw.justificativa }}
+                                    (<a [href]="sw.fonte" target="_blank" rel="noopener noreferrer">
+                                        {{ sw.fonte }}
+                                    </a>)
                                 </p>
-                            </div>
-                        </mat-expansion-panel>
-                    </div>
-                </mat-expansion-panel>
-            </ng-container>
+                            </ng-container>
+                        </div>
+                    </mat-expansion-panel>
+                </div>
+            </mat-expansion-panel>
         </div>
     </div>
 </div>

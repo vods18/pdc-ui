@@ -8,8 +8,7 @@ export interface SubRequisito {
     titulo: string;
     explicacao: string;
     checked: boolean;
-    requisitoId: number;
-    questionarioId: number;
+    questionarioResposta?: string | null;
 }
 
 export interface Requisito {

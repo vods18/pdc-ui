@@ -1,3 +1,5 @@
+<!-- src/app/pages/questionario/questionario.component.html -->
+
 <video autoplay muted loop playsinline class="bg-video">
     <source src="assets/video-page2.mp4" type="video/mp4" />
     Seu navegador não suporta vídeo em HTML5.
@@ -5,29 +7,28 @@
 
 <div class="questionario-container">
     <div class="skip-questionario">
-        <button mat-raised-button color="primary" routerLink='/checklist'>Pular Avaliação</button>
+        <button mat-raised-button color="primary" routerLink="/checklist">
+            Pular Avaliação
+        </button>
     </div>
 
     <div *ngIf="perguntas.length > 0" class="pergunta">
+        <h2>{{ perguntas[currentIndex].pergunta }}</h2>
 
-        <div>
-            <h2>{{ perguntas[currentIndex].pergunta }}</h2>
-        </div>
-
-        <mat-radio-group class="respostas radio-branco" [(ngModel)]="respostaAtual">
+        <mat-radio-group class="respostas radio-branco" [(ngModel)]="respostaAtual"
+            (change)="setResposta(respostaAtual!)">
             <mat-radio-button value="sim">Sim</mat-radio-button>
             <mat-radio-button value="nao">Não</mat-radio-button>
             <mat-radio-button value="nao_sei">Não sei</mat-radio-button>
         </mat-radio-group>
 
-
         <div class="m-10">
-            <button mat-raised-button color="primary" (click)="next()" [disabled]="!canGoNext()">Próxima</button>
+            <button mat-raised-button color="primary" (click)="next()" [disabled]="!canGoNext()">
+                {{ currentIndex < perguntas.length - 1 ? 'Próxima' : 'Concluir' }} </button>
 
-            <div class="m-2">
-                Pergunta {{ currentIndex + 1 }} de {{ perguntas.length }}
-            </div>
+                    <div class="m-2">
+                        Pergunta {{ currentIndex + 1 }} de {{ perguntas.length }}
+                    </div>
         </div>
-
     </div>
 </div>

@@ -1,3 +1,5 @@
+// src/app/checklist/checklist.component.ts
+
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { MatExpansionModule } from '@angular/material/expansion';
@@ -7,14 +9,13 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { FormsModule } from '@angular/forms';
 import { RequisitoService, Requisito, SubRequisito } from '../../services/requisito.service';
 import { SoftwareService, Software } from '../../services/software.service';
-import { RouterModule } from '@angular/router';
 import { PdfReportService } from '../../services/pdf-report.service';
+import { QuestionarioService } from '../../services/questionario.service';
+import { RouterModule, Router } from '@angular/router';
 import { MatIcon } from '@angular/material/icon';
 
 @Component({
     selector: 'app-checklist',
-    templateUrl: './checklist.component.html',
-    styleUrls: ['./checklist.component.css'],
     standalone: true,
     imports: [
         CommonModule,
@@ -25,7 +26,9 @@ import { MatIcon } from '@angular/material/icon';
         FormsModule,
         RouterModule,
         MatIcon
-    ]
+    ],
+    templateUrl: './checklist.component.html',
+    styleUrls: ['./checklist.component.css'],
 })
 export class ChecklistComponent implements OnInit {
     requisitos: Requisito[] = [];
@@ -39,17 +42,23 @@ export class ChecklistComponent implements OnInit {
     constructor(
         private requisitoService: RequisitoService,
         private softwareService: SoftwareService,
-        private pdfService: PdfReportService
+        private pdfService: PdfReportService,
+        private questionarioService: QuestionarioService,
+        private router: Router
     ) { }
 
     ngOnInit() {
         this.requisitoService.getRequisitos().subscribe(dados => {
-            // usa exatamente o checked que veio do back
-            this.requisitos = dados;
+            this.requisitos = dados.map(r => ({
+                ...r,
+                subRequisitos: r.subRequisitos.map(sr => ({
+                    ...sr,
+                    checked: sr.questionarioResposta === 'sim' || sr.checked
+                }))
+            }));
 
             this.totalSubRequisitos = this.requisitos.reduce(
-                (sum, r) => sum + r.subRequisitos.length,
-                0
+                (sum, r) => sum + r.subRequisitos.length, 0
             );
             this.colunaEsquerda = this.requisitos.slice(0, Math.ceil(this.requisitos.length / 2));
             this.colunaDireita = this.requisitos.slice(Math.ceil(this.requisitos.length / 2));
@@ -87,15 +96,20 @@ export class ChecklistComponent implements OnInit {
         return total === 0 ? 0 : Math.round((checked / total) * 100);
     }
 
-    getDescricaoSoftware(subRequisitoId: number): string {
-        const software = this.softwares.find(s => s.subRequisitoId === subRequisitoId);
-        return software
-            ? `${software.nome} - ${software.justificativa} (Fonte: ${software.fonte})`
-            : '';
+    getSoftwareBySubId(subRequisitoId: number): Software | undefined {
+        return this.softwares.find(s => s.subRequisitoId === subRequisitoId);
     }
+
     generatePdf() {
         this.showScan = true;
-        setTimeout(() => (this.showScan = false), 3000);
+        setTimeout(() => (this.showScan = false), 1200);
         this.pdfService.generateReport(this.requisitos, this.softwares);
+    }
+
+    resetQuestionario() {
+        this.questionarioService.postReset().subscribe({
+            next: () => this.router.navigate(['/questionario']),
+            error: err => console.error('Erro no reset:', err)
+        });
     }
 }
