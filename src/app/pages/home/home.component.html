@@ -6,10 +6,11 @@
     <header class="header">
         <h1 class="title">PCI DSS Checklist</h1>
         <div class="download">
-            <button mat-icon-button aria-label="Download arquivo de conformidade" (click)="baixarArquivo()">
-                <mat-icon style="color:#ccc">attach_file</mat-icon>
+            <button mat-icon-button class="download-btn" aria-label="Download arquivo de conformidade"
+                (click)="baixarArquivo()">
+                <mat-icon class="download-icon">attach_file</mat-icon>
             </button>
-            <p class="download-label">. Arquivo de conformidade</p>
+            <p class="download-label">Arquivo de conformidade completo</p>
         </div>
     </header>
 
@@ -24,9 +25,20 @@
                 Avaliação Preliminar
                 <button mat-icon-button matTooltip="Questionário opcional que visa agilizar o processo de conformidade"
                     class="tooltip-icon" tabindex="-1">
-                    <mat-icon style="margin-bottom: 2px;">info</mat-icon>
+                    <mat-icon>info</mat-icon>
                 </button>
             </button>
         </div>
     </main>
 </div>
+
+<footer class="footer-home">
+    <p>
+        Este software está em fase inicial de desenvolvimento como parte de uma tese de TCC, utilizando
+        o formato de requisitos do PCI DSS em nível alto, conforme o
+        <a href="https://www.pcisecuritystandards.org/document_library?category=saqs" target="_blank"
+            rel="noopener noreferrer">
+            PCI DSS Quick Reference Guide v3.2.1
+        </a>.
+    </p>
+</footer>

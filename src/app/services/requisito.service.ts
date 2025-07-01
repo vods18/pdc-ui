@@ -10,6 +10,7 @@ export interface SubRequisito {
     checked: boolean;
     questionarioId: number;
     questionarioResposta?: string | null;
+    showInfo: boolean;
 }
 
 export interface Requisito {

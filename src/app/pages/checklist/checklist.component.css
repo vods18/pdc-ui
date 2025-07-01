@@ -1,17 +1,20 @@
+/* Base styles */
 :host {
     display: block;
     min-height: 100vh;
-    background-color: #01091e;
+    background: linear-gradient(135deg, #01091e 0%, #091733 100%);
     color: white;
     overflow-y: auto;
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    position: relative;
 }
 
 .checklist-container {
     max-width: 1600px;
     margin: 0 auto;
     padding: 2rem;
-    min-height: calc(100vh - 5rem);
+    padding-bottom: 4rem;
+    /* espaço para footer */
 }
 
 /* Título */
@@ -20,13 +23,11 @@
     font-size: 2.5rem;
     margin-bottom: 2rem;
     font-weight: bold;
-    color: white;
 }
 
 .titulo-link {
     color: inherit;
     text-decoration: none;
-    cursor: pointer;
     transition: color 0.3s ease;
 }
 
@@ -34,20 +35,18 @@
     color: #76ffaf;
 }
 
-/* Zona de ações: dois botões, um à esquerda e outro à direita */
+/* Botões de ação */
 .action-bar {
     display: flex;
     justify-content: space-between;
-    align-items: center;
     margin-bottom: 2rem;
 }
 
-/* Botões compartilhando estilo principal */
 .btn-generate-pdf {
+    cursor: pointer;
     display: flex;
     align-items: center;
     gap: 0.5rem;
-    font-size: 1rem;
     padding: 0.75rem 1.5rem;
     border-radius: 2rem;
     box-shadow: 0 4px 12px rgba(0, 200, 83, 0.4);
@@ -61,19 +60,13 @@
 .btn-generate-pdf:hover {
     background-color: #76ffaf;
     transform: translateY(-1px);
-    cursor: pointer;
 }
 
-.btn-generate-pdf:active {
-    transform: translateY(1px);
-}
-
-/* Barra de progresso superior */
+/* Barra de progresso */
 .top-progress-bar {
     width: 100%;
     position: relative;
-    margin-top: 6em;
-    margin-bottom: 3rem;
+    margin: 6em 0 3rem;
 }
 
 .progress-bar {
@@ -96,8 +89,6 @@
     left: 50%;
     transform: translateX(-50%);
     font-weight: bold;
-    font-size: 1rem;
-    color: white;
 }
 
 /* Grid de requisitos */
@@ -105,117 +96,6 @@
     display: grid;
     grid-template-columns: repeat(2, minmax(500px, 1fr));
     gap: 2rem 4rem;
-    margin-top: 2rem;
-    align-items: start;
-}
-
-.requisito-column {
-    display: contents;
-}
-
-/* Painel de requisito */
-.requisito-panel {
-    background-color: #f5f5dc;
-    border-radius: 10px;
-    padding: 15px;
-    color: black;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.25);
-    transition: transform 0.1s ease, box-shadow 0.2s ease;
-}
-
-.requisito-panel:hover {
-    transform: translateY(-4px);
-    box-shadow: 0 6px 14px rgba(0, 0, 0, 0.35);
-    /* background-color: #76ffaf; */
-}
-
-mat-panel-title {
-    font-size: 1.1rem !important;
-}
-
-.requisito-panel,
-.requisito-panel * {
-    font-size: 1.3rem !important;
-}
-
-.subrequisito-item {
-    margin-top: 1rem;
-    padding: 1rem;
-    border-radius: 8px;
-    color: white;
-}
-
-.explicacao-panel {
-    margin-top: 10px;
-}
-
-.explicacao-texto {
-    padding: 0.8rem 1rem;
-    background-color: rgba(173, 216, 230, 0.2);
-    border-radius: 6px;
-    font-size: 1rem !important;
-    color: white;
-    border-left: 4px solid #00c853;
-}
-
-.descricao-software {
-    font-style: italic;
-    font-size: 0.9em;
-    color: #a8b0b8;
-    margin-top: 0.5rem;
-}
-
-/* overlay cobrindo toda a tela */
-.scan-overlay {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    pointer-events: none;
-    z-index: 9999;
-    overflow: hidden;
-}
-
-/* faixa de luz que vai “varrendo” de cima pra baixo */
-.scan-overlay::before {
-    content: '';
-    position: absolute;
-    top: -100%;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: linear-gradient(to bottom,
-            transparent 0%,
-            rgba(255, 255, 255, 0.4) 50%,
-            transparent 100%);
-    animation: verticalScan 1.2s ease-in-out forwards;
-}
-
-
-/* apaga o hover cinza */
-:host ::ng-deep .mat-expansion-panel-header {
-    /* variável que controla a cor do layer de hover */
-    --mat-expansion-header-hover-state-layer-color: transparent !important;
-    /* e a do foco/tab, se quiser */
-    --mat-expansion-header-focus-state-layer-color: transparent !important;
-}
-
-/* opcional: mantém o fundo sempre limpo, mesmo expandido */
-:host ::ng-deep .mat-expansion-panel-header.mat-expanded {
-    background-color: transparent !important;
-}
-
-
-/* keyframes para mover a faixa */
-@keyframes verticalScan {
-    0% {
-        top: -100%;
-    }
-
-    100% {
-        top: 100%;
-    }
 }
 
 @media (max-width: 900px) {
@@ -230,4 +110,147 @@ mat-panel-title {
     .top-progress-bar {
         margin-top: 3rem;
     }
+}
+
+/* Painel principal */
+.requisito-panel {
+    background-color: #f5f5dc;
+    border-radius: 10px;
+    padding: 0;
+    /* reset inner padding to allow full-width hover */
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.25);
+    transition: transform 0.1s ease, box-shadow 0.2s ease, background-color 0.3s ease;
+    overflow: hidden;
+}
+
+.requisito-panel mat-expansion-panel-header {
+    padding: 1rem 1.5rem;
+}
+
+.requisito-panel mat-panel-title {
+    font-size: 1.3rem;
+}
+
+.requisito-panel:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 6px 14px rgba(0, 0, 0, 0.35);
+}
+
+/* Hover do header principal preenchendo o painel */
+:host ::ng-deep mat-expansion-panel.requisito-panel:not(.mat-expanded):hover {
+    background-color: #76ffaf !important;
+}
+
+:host ::ng-deep mat-expansion-panel.requisito-panel:not(.mat-expanded):hover .mat-expansion-panel-header {
+    background: transparent !important;
+}
+
+:host ::ng-deep mat-expansion-panel.requisito-panel:not(.mat-expanded) .mat-expansion-panel-header:hover .mat-panel-title,
+:host ::ng-deep mat-expansion-panel.requisito-panel:not(.mat-expanded) .mat-expansion-panel-header:hover mat-progress-spinner {
+    color: #1b1b1b !important;
+}
+
+/* Subrequisito */
+.subrequisito-item {
+    margin: 1rem;
+}
+
+.toggle-container {
+    text-align: left;
+    margin-top: 0.5rem;
+}
+
+.btn-detalhes {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.5rem 1rem;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 6px;
+    font-weight: 500;
+    color: #0e0075;
+    border: none;
+    cursor: pointer;
+    transition: background 0.2s ease;
+}
+
+.btn-detalhes mat-icon {
+    font-size: 1rem;
+}
+
+/* Conteúdo de explicação */
+.explicacao-texto {
+    padding: 1rem 1.2rem;
+    background-color: rgba(255, 255, 255, 0.05);
+    border-radius: 6px;
+    font-size: 1.1rem;
+    color: #d0d0d0;
+    line-height: 1.6;
+}
+
+.explicacao-texto p {
+    font-size: 1.3rem;
+    color: #717171;
+
+}
+
+.descricao-software-box {
+    border-left: 4px solid #00c853;
+    border-radius: 6px;
+    padding: 0.8rem 1rem;
+    margin-top: 2rem;
+    background-color: rgba(255, 255, 255, 0.03);
+}
+
+.descricao-software {
+    font-style: italic;
+    font-size: 0.9em;
+    color: #8ba0b2;
+    line-height: 1.5;
+    margin: 0;
+}
+
+.termo-tecnico {
+    margin: 0.5rem 0;
+    padding-left: 1rem;
+    position: relative;
+    font-size: 1.2rem;
+    color: #8fa5b9;
+}
+
+.termo-tecnico::before {
+    content: '•';
+    position: absolute;
+    left: 0;
+    color: #00c853;
+}
+
+/* Footer fixado sem scroll extra */
+.footer {
+    position: absolute;
+    bottom: 1rem;
+    width: 100%;
+    text-align: center;
+    font-size: 0.85rem;
+    color: #888;
+}
+
+.footer a {
+    color: #76ffaf;
+    text-decoration: none;
+}
+
+/* Mantém o botão gerador de PDF verde e texto branco mesmo desabilitado */
+.btn-generate-pdf.btn-generate[disabled] {
+    background-color: #76ffaf !important;
+    color: black !important;
+    opacity: 0.9;
+    /* ligeiro efeito de “inativo” sem escurecer demais */
+    cursor: default;
+    /* remove o ponteiro de clique */
+}
+
+/* Garante que o spinner fique branco dentro do botão */
+.btn-generate-pdf.btn-generate[disabled] .mat-spinner circle {
+    stroke: white;
 }

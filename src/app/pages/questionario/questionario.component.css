@@ -1,3 +1,6 @@
+/* src/app/pages/questionario/questionario.component.css */
+
+/* Vídeo de fundo */
 .bg-video {
     position: fixed;
     top: 0;
@@ -8,50 +11,148 @@
     z-index: -1;
 }
 
+/* Container principal */
 .questionario-container {
     display: flex;
     flex-direction: column;
+    align-items: flex-start;
     min-height: calc(100vh - 5rem);
     padding: 2rem;
     font-family: Arial, sans-serif;
-}
-
-.skip-questionario {
-    display: flex;
-    justify-content: flex-start;
-    margin-bottom: 2rem;
-}
-
-.pergunta {
-    font-size: 1.2rem;
-    text-align: left;
-    margin-top: 4rem;
-    margin-bottom: 2rem;
-    max-width: 70rem;
     color: white;
+    position: relative;
+    z-index: 1;
+    flex: 1;
+    overflow-y: auto;
+    /* scroll interno, não global */
 }
 
+/* Botão de pular */
+.skip-questionario {
+    margin-bottom: 2rem;
+}
+
+.skip-questionario button {
+    padding: 1rem 2rem;
+    font-size: 1.1rem;
+    border-radius: 2rem;
+    transition: background-color 0.3s ease, transform 0.1s ease;
+}
+
+.skip-questionario button:hover {
+    transform: translateY(-2px);
+    cursor: pointer;
+}
+
+/* Pergunta */
+.pergunta {
+    font-size: 1.3rem;
+    line-height: 1.4;
+    margin: 4rem 1rem 2rem;
+    max-width: 70rem;
+}
+
+/* Grupo de respostas */
 .respostas {
     display: flex;
     flex-direction: column;
     gap: 1rem;
     max-width: 300px;
+    font-size: 1.2rem;
     margin-top: 5rem;
-    color: white;
+    /* espaço entre pergunta e respostas */
+    margin-bottom: 2rem;
 }
 
-.respostas .mat-mdc-radio-button {
-    --mdc-theme-text-primary-on-background: white;
-    --mat-radio-checked-color: white;
-    --mat-radio-label-text-color: white;
-    color: white;
-    /* Precaução para rótulo */
+.respostas mat-radio-button {
+    margin-bottom: 0.8rem;
 }
 
-.m-10 {
-    margin-top: 10rem;
+/* Aumenta tamanho dos rádios */
+::ng-deep .mat-radio-button .mat-radio-container,
+::ng-deep .mat-mdc-radio-button .mdc-radio {
+    transform-origin: center center;
+    transform: scale(1.5);
 }
 
-.m-2 {
-    margin-top: 2rem;
+/* Ajusta label */
+::ng-deep .mat-radio-button .mat-radio-label-content,
+::ng-deep .mat-mdc-radio-button .mat-mdc-radio-label-content,
+::ng-deep .respostas .mat-internal-form-field>label {
+    font-size: 1.2rem !important;
+    line-height: 24px !important;
+    color: white !important;
+}
+
+/* Botões de navegação e contador */
+.navegacao {
+    display: flex;
+    flex-direction: column;
+    /* empilha verticalmente */
+    align-items: flex-start;
+    /* texto alinhado à esquerda abaixo do botão */
+    gap: 0.5rem;
+    /* espaço entre botão e texto */
+    margin-top: 6rem;
+}
+
+
+.navegacao button {
+    padding: 1rem 2rem;
+    font-size: 1.1rem;
+    border-radius: 2rem;
+    transition: background-color 0.3s ease, transform 0.1s ease;
+}
+
+.navegacao button:hover {
+    transform: translateY(-2px);
+    cursor: pointer;
+}
+
+.contador {
+    margin-top: 1rem;
+    font-size: 1rem;
+}
+
+/* Footer adaptativo fixo ao rodapé interno */
+.footer-adaptive {
+    position: sticky;
+    bottom: 0;
+    width: 100%;
+    text-align: center;
+    padding: 0.8rem 1.5rem;
+    /* reduzido de 1.5rem 2rem */
+    color: #ccc;
+    font-size: 0.9rem;
+    background: rgba(0, 0, 0, 0.497);
+    border-top: 1px solid rgba(255, 255, 255, 0.093);
+    z-index: 2;
+}
+
+.footer-adaptive p {
+    max-width: 160em;
+    /* “estica” um pouco mais o texto antes da quebra */
+    margin: 0 auto;
+    line-height: 1.6;
+    /* espaçamento de texto levemente aumentado */
+}
+
+
+.footer-adaptive strong {
+    color: #76ffaf;
+}
+
+:host {
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+    overflow: hidden;
+    /* remove rolagem global */
+}
+
+.questionario-container {
+    flex: 1;
+    /* ocupa todo o espaço restante */
+    overflow-y: auto;
+    /* rolagem só aqui */
 }

@@ -11,13 +11,13 @@
             <mat-icon>refresh</mat-icon>
             Refazer Avaliação
         </button>
-
-        <button mat-raised-button color="primary" class="btn-generate-pdf btn-generate" (click)="generatePdf()">
-            <mat-icon>picture_as_pdf</mat-icon>
-            Gerar Relatório PDF
+        <button mat-raised-button color="primary" class="btn-generate-pdf btn-generate" (click)="generatePdf()"
+            [disabled]="isGeneratingPdf">
+            <mat-icon *ngIf="!isGeneratingPdf">picture_as_pdf</mat-icon>
+            <mat-spinner *ngIf="isGeneratingPdf" diameter="24" strokeWidth="3"></mat-spinner>
+            {{ isGeneratingPdf ? 'Gerando PDF...' : 'Gerar Relatório PDF' }}
         </button>
     </div>
-
 
     <div class="top-progress-bar">
         <div class="progress-label">{{ totalProgress }}%</div>
@@ -29,7 +29,7 @@
     <div class="requisitos-grid">
         <!-- Coluna Esquerda -->
         <div class="requisito-column" *ngFor="let requisito of colunaEsquerda">
-            <mat-expansion-panel class="requisito-panel">
+            <mat-expansion-panel class="requisito-panel" [expanded]="isExpanded(requisito)">
                 <mat-expansion-panel-header>
                     <mat-panel-title>
                         {{ requisito.id }}. {{ requisito.titulo }}
@@ -44,37 +44,48 @@
                         {{ sub.titulo }}
                     </mat-checkbox>
 
-                    <mat-expansion-panel class="explicacao-panel" [expanded]="sub.questionarioResposta === 'nao_sei'">
-                        <mat-expansion-panel-header>
-                            <mat-panel-title>Descrição</mat-panel-title>
-                        </mat-expansion-panel-header>
+                    <div class="toggle-container">
+                        <button class="btn-detalhes" (click)="sub.showInfo = !sub.showInfo">
+                            <span>Mais informações</span>
+                            <mat-icon>{{ sub.showInfo ? 'expand_less' : 'expand_more' }}</mat-icon>
+                        </button>
+                    </div>
 
-                        <div class="explicacao-texto">
-                            {{ sub.explicacao }}
-
-                            <ng-container *ngIf="getSoftwareBySubId(sub.id) as sw">
+                    <div class="explicacao-texto" *ngIf="sub.showInfo">
+                        <p *ngIf="guiaRequisitosMap.get(sub.id)?.significado as significado">
+                            {{ significado }}
+                        </p>
+                        <div *ngIf="guiaRequisitosMap.get(sub.id)?.id as guiaId">
+                            <div *ngIf="termosMap.get(guiaId) as termos">
+                                <div *ngFor="let termo of termos" class="termo-tecnico">
+                                    <strong>{{ termo.nome }}:</strong> {{ termo.texto }}
+                                </div>
+                            </div>
+                        </div>
+                        <ng-container *ngIf="getSoftwareBySubId(sub.id) as sw">
+                            <div class="descricao-software-box">
                                 <p class="descricao-software">
-                                    Recomenda-se: {{ sw.nome }} – {{ sw.justificativa }}
+                                    Recomenda-se: {{ sw.nome }} – {{ sw.justificativa }}<br />
                                     (<a [href]="sw.fonte" target="_blank" rel="noopener noreferrer">
                                         {{ sw.fonte }}
                                     </a>)
                                 </p>
-                            </ng-container>
-                        </div>
-                    </mat-expansion-panel>
+                            </div>
+                        </ng-container>
+                    </div>
                 </div>
             </mat-expansion-panel>
         </div>
 
         <!-- Coluna Direita -->
         <div class="requisito-column" *ngFor="let requisito of colunaDireita">
-            <mat-expansion-panel class="requisito-panel">
+            <mat-expansion-panel class="requisito-panel" [expanded]="isExpanded(requisito)">
                 <mat-expansion-panel-header>
                     <mat-panel-title>
                         {{ requisito.id }}. {{ requisito.titulo }}
                     </mat-panel-title>
-                    <mat-progress-spinner [value]="getProgressoPorRequisito(requisito)" mode="determinate" diameter="40"
-                        strokeWidth="5" color="accent">
+                    <mat-progress-spinner style="margin-right: 0.5em;" [value]="getProgressoPorRequisito(requisito)"
+                        mode="determinate" diameter="40" strokeWidth="5" color="accent">
                     </mat-progress-spinner>
                 </mat-expansion-panel-header>
 
@@ -83,26 +94,39 @@
                         {{ sub.titulo }}
                     </mat-checkbox>
 
-                    <mat-expansion-panel class="explicacao-panel" [expanded]="sub.questionarioResposta === 'nao_sei'">
-                        <mat-expansion-panel-header>
-                            <mat-panel-title>Descrição</mat-panel-title>
-                        </mat-expansion-panel-header>
+                    <div class="toggle-container">
+                        <button class="btn-detalhes" (click)="sub.showInfo = !sub.showInfo">
+                            <span>Mais informações</span>
+                            <mat-icon>{{ sub.showInfo ? 'expand_less' : 'expand_more' }}</mat-icon>
+                        </button>
+                    </div>
 
-                        <div class="explicacao-texto">
-                            {{ sub.explicacao }}
-
-                            <ng-container *ngIf="getSoftwareBySubId(sub.id) as sw">
+                    <div class="explicacao-texto" *ngIf="sub.showInfo">
+                        <p>{{ sub.explicacao }}</p>
+                        <ng-container *ngIf="getSoftwareBySubId(sub.id) as sw">
+                            <div class="descricao-software-box">
                                 <p class="descricao-software">
-                                    Recomenda-se: {{ sw.nome }} – {{ sw.justificativa }}
+                                    Recomenda-se: {{ sw.nome }} – {{ sw.justificativa }}<br />
                                     (<a [href]="sw.fonte" target="_blank" rel="noopener noreferrer">
                                         {{ sw.fonte }}
                                     </a>)
                                 </p>
-                            </ng-container>
-                        </div>
-                    </mat-expansion-panel>
+                            </div>
+                        </ng-container>
+                    </div>
                 </div>
             </mat-expansion-panel>
         </div>
     </div>
 </div>
+
+<footer class="footer">
+    <p>
+        As explicações de cada sub-requisito foram adaptadas e simplificadas a
+        partir do documento original da
+        <a href="https://ww2.arb.ca.gov/sites/default/files/barcu/regact/2019/evse2019/appe.pdf" target="_blank"
+            rel="noopener noreferrer">ARB (California Air Resources Board)</a>, com acréscimo de definições e exemplos
+        para facilitar o entendimento dos
+        termos técnicos.
+    </p>
+</footer>
